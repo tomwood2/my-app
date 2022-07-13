@@ -1,0 +1,63 @@
+
+.two-column-grid {
+    display: grid;
+    grid-template-columns: 75% 25%;
+}
+
+.plus-button {
+    background-color: rgb(18, 149, 131);
+    font-size: 4rem;
+    width: 5rem;
+}
+
+.minus-button {
+    background-color: lightcoral;
+    font-size: 4rem;
+    width: 5rem;
+}
+
+.header-class {
+    grid-area: header;
+    color: whitesmoke;
+    place-self: center;
+    font-size: 2.5rem;
+}
+
+.plus-class {
+    grid-area: plus;
+    place-self: center;
+    padding: 0rem 1rem;
+}
+
+.minus-class {
+    grid-area: minus;
+    place-self: center;
+    padding: 0rem 1rem;
+}
+
+.count-class {
+    grid-area: count;
+    place-self: center;
+    font-size: 4rem;
+    color: whitesmoke;
+}
+
+.reset-class {
+    grid-area: reset;
+    place-self: center;
+    background-color: lightskyblue;
+    font-size: 3rem;
+    padding: 0rem 1rem;
+}
+
+.outer-container {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 5rem 5rem 5rem 5rem;
+    
+    grid-template-areas:
+        "header header"
+        "plus ."
+        "count reset"
+        "minus .";
+    }
