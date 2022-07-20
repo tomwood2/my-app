@@ -1,63 +1,94 @@
 
-.two-column-grid {
-    display: grid;
-    grid-template-columns: 75% 25%;
-}
-
-.plus-button {
-    background-color: rgb(18, 149, 131);
-    font-size: 4rem;
-    width: 5rem;
-}
-
-.minus-button {
-    background-color: lightcoral;
-    font-size: 4rem;
-    width: 5rem;
-}
-
-.header-class {
+.header {
     grid-area: header;
     color: whitesmoke;
     place-self: center;
     font-size: 2.5rem;
 }
 
-.plus-class {
+.plus {
     grid-area: plus;
-    place-self: center;
+    place-self: stretch;
     padding: 0rem 1rem;
+    background-color: rgb(18, 149, 131);
+    font-size: 4rem;
 }
 
-.minus-class {
+.seconds {
+    grid-area: seconds;
+    place-self: stretch;
+    font-size: 4rem;
+}
+
+.seconds-active {
+    background-color: lavender;
+}
+
+.minus {
     grid-area: minus;
-    place-self: center;
+    place-self: stretch;
     padding: 0rem 1rem;
+    background-color: lightcoral;
+    font-size: 4rem;
 }
 
-.count-class {
+.count {
     grid-area: count;
     place-self: center;
-    font-size: 4rem;
+    font-size: 5rem;
     color: whitesmoke;
 }
 
-.reset-class {
+.reset {
     grid-area: reset;
-    place-self: center;
+    place-self: stretch;
     background-color: lightskyblue;
+    font-size: 4rem;
+    padding: 0rem 1rem;
+}
+
+.start {
+    grid-area: start;
+    place-self: stretch;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: lightyellow;
+    font-size: 4rem;
+    padding: 0rem 1rem;
+}
+
+.start-set {
+    grid-area: start-set;
+    place-self: stretch;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: lightpink;
     font-size: 3rem;
     padding: 0rem 1rem;
 }
 
-.outer-container {
+.mute {
+    grid-area: mute;
+    background-color: lightseagreen;
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container {
     display: grid;
     grid-template-columns: 50% 50%;
-    grid-template-rows: 5rem 5rem 5rem 5rem;
+    grid-template-rows: 5rem 5rem 5rem 5rem 5rem 15rem;
+    gap: .5rem;
     
     grid-template-areas:
         "header header"
-        "plus ."
+        "plus seconds"
         "count reset"
-        "minus .";
+        "minus mute"
+        "start-set start-set"
+        "start start";
     }
