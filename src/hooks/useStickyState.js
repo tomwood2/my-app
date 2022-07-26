@@ -1,5 +1,5 @@
 
-import React, {useState, useEffect, useRef} from 'react';
+import {useState, useEffect} from 'react';
 
 function useStickyState(defaultValue, key) {
     const [value, setValue] = useState(() => {

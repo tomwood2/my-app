@@ -7,37 +7,16 @@ import decide from './sounds/144319__fumiya112__decide.mp3';
 import arcadeButtonClickSound from './sounds/157871__orginaljun__arcade-button-1-click-sound.mp3';
 
 import './CountTracker.css';
-import { isCompositeComponent } from 'react-dom/test-utils';
 
 const timout = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-timout(1000)
-    .then(() => console.log('wait() called'))
-    .catch(() => console.log("wait() failed"));
 
 function CountTracker(props) {
 
     const [count, setCount] = useState(parseInt(props.count));
     const [seconds, setSeconds] = useState(null);
-//    const [currentInterval, setCurrentInterval] = useState(-1);
     const [setStarted, setSetStarted] = useState(false);
-//    const [setTicks, setSetTicks] = useState(null);
     const [mute, setMute] = useStickyState(false, 'countTracker.mute');
-    const [invokeStartInterval, setInvokeStartInterval] = useState(false);
-    const [invokeStartSet, setInvokeStartSet] = useState(false);
-
-    useEffect (() => {
-
-        if (invokeStartInterval) {
-            startInterval();
-            setInvokeStartInterval(false);
-        }
-
-        if (invokeStartSet) {
-            startSet();
-            setInvokeStartSet(false);
-        }
-
-    }, [invokeStartInterval, invokeStartSet])
+    const [secondsInASet, setSecondsInASet] = useStickyState(10, 'countTracker.secondsInASet');
 
     const muteRef = useRef();
     muteRef.current = mute;     // interval callback uses this to read mute state
@@ -51,9 +30,10 @@ function CountTracker(props) {
     const countRef = useRef();
     countRef.current = count;
 
-    const secondsInASet = 20;
-    const stopAutoSetsCount = 10;
-    const startSetDelay = 3.5;    // wait 4 seconds before starting a set
+    // put these in properties
+    //const secondsInASet = 20;       // seconds
+    const stopAutoSetsCount = 10;   // counts
+    const startSetDelay = 3.5;      // seconds
 
     // only call this when count changes ([count] passed as second argument)
     useEffect(() => {
@@ -80,7 +60,7 @@ function CountTracker(props) {
         { volume: 0.3 }
     );
 
-    function incrementCount() {
+     function incrementCount() {
         setCount(count => count + 1);
         return timout(1);
     }
@@ -117,7 +97,6 @@ function CountTracker(props) {
         const incrementSeconds = () => {
 
             if (secondsRef.current === null) {
-                //throw Error("")
                 return Promise.reject("seconds promise was cancelled.");
             }
 
@@ -136,7 +115,7 @@ function CountTracker(props) {
             }
 
             setSeconds(null);
-            return timout(1);
+//            return timout(1);
         };
 
         const testForAndRunAnotherSet = () => {
@@ -145,9 +124,11 @@ function CountTracker(props) {
                 if (countRef.current >= stopAutoSetsCount) {
                     setSetStarted(false);
                 } else {
-                    startSet();
+                    startSet(null);     // pass null event so count is not reset
                 }
             }
+
+//            return setTimeout(1);
         };
 
         setSeconds(0);
@@ -224,7 +205,7 @@ function CountTracker(props) {
         //  setCurrentInterval(interval);
      }
 
-     function startSet() {
+     function startSet(event) {
 
         const ms = 250;
 
@@ -255,6 +236,9 @@ function CountTracker(props) {
         };
 
         setSetStarted(true);
+        if (event !== null) {
+            setCount(0);    // startSet called from clicked handler
+        }
 
         const ticksPerSecond = 1000 / ms;
         const setTicks = startSetDelay * ticksPerSecond;
@@ -273,6 +257,10 @@ function CountTracker(props) {
         setSetStarted(false);
      }
 
+     function secondsInASetChanged(e) {
+        setSecondsInASet(parseInt(e.target.value));
+    }
+
     return  (
         <div className="container">
             <div className="header">Count Tracker</div>
@@ -284,27 +272,27 @@ function CountTracker(props) {
             <div className="mute"><label><input type="checkbox" name="mute" onChange={toggleMute} checked={mute}/>Mute</label></div>
             <div onClick={setStarted ? stopSet : startSet} className="start-set">{setStarted ? 'Stop Set' : 'Start Set'}</div>
             <div onClick={seconds === null ? startInterval : stopInterval} className="start">{seconds === null ? 'Start' : 'Stop'}</div>
+            <div className="settings">
+                <label>Seconds per set:
+                    <select value={secondsInASet.toString()} onChange={secondsInASetChanged}>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="15">15</option>
+                        <option value="20">20</option>
+                        <option value="30">30</option>
+                    </select>
+                </label>
+            </div>
         </div>
         );
 }
-
-// function successCallback(result) {
-//     console.log("Audio file ready at URL: " + result);
-// }
-
-// function failureCallback(error) {
-//     console.error("Error generating audio file: " + error);
-// }
-
-// function createAudioFileAsync(settings, success, failure) {
-
-//     if (settings === null) {
-//         failure("createAudioFileAsync failed, bad settings");
-//         return;
-//     } else {
-//         success("createAudioFileAsync succeded!");
-//         return;
-//     }
-// }
 
 export default CountTracker;

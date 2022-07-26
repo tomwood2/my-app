@@ -78,6 +78,15 @@
     justify-content: center;
 }
 
+.settings {
+    grid-area: settings;
+    background-color: gray;
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .container {
     display: grid;
     grid-template-columns: 50% 50%;
@@ -90,5 +99,6 @@
         "count reset"
         "minus mute"
         "start-set start-set"
-        "start start";
+        "start start"
+        "settings settings";
     }
