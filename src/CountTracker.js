@@ -5,18 +5,24 @@ import {useStickyState} from './hooks/useStickyState';
 import _44 from './sounds/415862__arianestolfi__44.mp3';
 import decide from './sounds/144319__fumiya112__decide.mp3';
 import arcadeButtonClickSound from './sounds/157871__orginaljun__arcade-button-1-click-sound.mp3';
-
+import {DialogModal} from "./utils/DialogModal";
+import secondsTicker from './utils/secondsTicker';
+import timeout from './utils/timeout';
 import './CountTracker.css';
+import Hamburger from './Hamburger';
 
-const timout = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+//const timout = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-function CountTracker(props) {
+// default countProp to 0 and empty object as default props
+function CountTracker({count:countProp = 0, secondsInASet: secondsInASetProp = 20} = {}) {
 
-    const [count, setCount] = useState(parseInt(props.count));
+    const [count, setCount] = useState(parseInt(countProp.toString()));
     const [seconds, setSeconds] = useState(null);
     const [setStarted, setSetStarted] = useState(false);
     const [mute, setMute] = useStickyState(false, 'countTracker.mute');
-    const [secondsInASet, setSecondsInASet] = useStickyState(10, 'countTracker.secondsInASet');
+    // the secondsInASetProp only works if the browser data has not been set
+    const [secondsInASet, setSecondsInASet] = useStickyState(secondsInASetProp, 'countTracker.secondsInASet');
+    const [isSettingsDialogOpened, setIsSettingsDialogOpened] = useState(false);
 
     const muteRef = useRef();
     muteRef.current = mute;     // interval callback uses this to read mute state
@@ -29,6 +35,9 @@ function CountTracker(props) {
 
     const countRef = useRef();
     countRef.current = count;
+
+    const secondsInASetRef = useRef();
+    secondsInASetRef.current = secondsInASet;
 
     // put these in properties
     //const secondsInASet = 20;       // seconds
@@ -60,9 +69,9 @@ function CountTracker(props) {
         { volume: 0.3 }
     );
 
-     function incrementCount() {
+    function incrementCount() {
         setCount(count => count + 1);
-        return timout(1);
+        // return timeout(1); was being used for the function in a promise
     }
 
     function decrementCount() {
@@ -85,28 +94,56 @@ function CountTracker(props) {
         setSeconds(null);
     }
 
+    function onSettings() {
+        setIsSettingsDialogOpened(true);
+    }
+
     function toggleMute() {
         setMute(mute => !mute);
     }
 
     function startInterval() {
 
+        // needs:
+        // secondsRef
+        // setSeconds
+        // mutRef
+        // playTick
+        // playIntervalEnd
+
+
         // the mute state can change between the time
         // the interval function was created (which uses the value of mute from the closure
 
-        const incrementSeconds = () => {
+        // const incrementSeconds = () => {
+
+        //     if (secondsRef.current === null) {
+        //         return Promise.reject("seconds promise was cancelled.");
+        //     }
+
+        //     setSeconds(seconds => seconds + 1);
+
+        //     if (!muteRef.current) {
+        //         playTick();
+        //     }
+
+        //     return timeout(1000);
+        // };
+
+        // callback used by secondsTicker
+        const incrementSeconds = (second) => {
 
             if (secondsRef.current === null) {
-                return Promise.reject("seconds promise was cancelled.");
+                return false;   // end ticker
             }
 
-            setSeconds(seconds => seconds + 1);
+            setSeconds(second);
 
             if (!muteRef.current) {
                 playTick();
             }
 
-            return timout(1000);
+            return true;
         };
 
         const secondsComplete = () => {
@@ -115,7 +152,6 @@ function CountTracker(props) {
             }
 
             setSeconds(null);
-//            return timout(1);
         };
 
         const testForAndRunAnotherSet = () => {
@@ -127,82 +163,38 @@ function CountTracker(props) {
                     startSet(null);     // pass null event so count is not reset
                 }
             }
-
-//            return setTimeout(1);
         };
+
+//        const getSecondsInASet = () => secondsInASetRef.current === null ? 0 : secondsInASetRef.current;
 
         setSeconds(0);
         if (!muteRef.current) {
             playStartButtonClicked();    // let use know we are starting a new interval
         }
 
-        let chain = timout(1000);   // this one is not counted in our loop
-        for (let i = 0; i < secondsInASet - 1; i++) {
-            chain = chain.then(() => incrementSeconds());
-        }
-
-        chain.then(() => secondsComplete())
-        .then(() => incrementCount())
-        .then(() => testForAndRunAnotherSet())
+        secondsTicker(incrementSeconds, secondsInASet)
+        .then(() => {
+            secondsComplete();
+            incrementCount();
+            testForAndRunAnotherSet()
+        })
         .catch((error) => console.log(error));
 
-            // timout(1000).then(() => {
-                
-            //     setSeconds(seconds => {
+        // secondsTicker(incrementSeconds, secondsInASet)
+        // .then(() => secondsComplete())
+        // .then(() => incrementCount())
+        // .then(() => testForAndRunAnotherSet())
+        // .catch((error) => console.log(error));
 
-            //         let newSeconds = seconds + 1;
+        // let chain = timeout(1000);   // this one is not counted in our loop
+        // for (let i = 0; i < secondsInASet - 1; i++) {
+        //     chain = chain.then(() => incrementSeconds());
+        // }
 
-            //         if (newSeconds === 20) {
-            //             // increment the count
-            //             incrementCount();
-
-            //             clearInterval(interval);
-            //             setCurrentInterval(-1);
-            //             if (!muteRef.current) {
-            //                 playIntervalEnded();
-            //             }
-            //             return 0;   // set seconds to 0
-            //         }
-
-            //         // otherwise increment seconds
-            //         if (!muteRef.current) {
-            //             playTick();
-            //         }
-
-            //         return newSeconds;
-            //     }
-            // });     // end of timout
-
-        // we are done
-
-        //  const interval = setInterval(() => {
-            
-        //     setSeconds(seconds => {
- 
-        //      // we haven't incremented seconds yet
-        //      if (seconds === 19) {
-        //         // increment the count
-        //         incrementCount();
-
-        //         clearInterval(interval);
-        //         setCurrentInterval(-1);
-        //         if (!muteRef.current) {
-        //             playIntervalEnded();
-        //         }
-        //         return 0;   // set seconds to 0
-        //      }
-
-        //     // otherwise increment seconds
-        //     if (!muteRef.current) {
-        //         playTick();
-        //     }
-        //     return seconds + 1;
-
-        //     });
-        //  }, 1000);
-
-        //  // save interval in state as currentInterval
-        //  setCurrentInterval(interval);
+        // chain.then(() => secondsComplete())
+        // .then(() => incrementCount())
+        // .then(() => testForAndRunAnotherSet())
+        // .catch((error) => console.log(error));
      }
 
      function startSet(event) {
@@ -222,7 +214,7 @@ function CountTracker(props) {
                 playTick();
             }
 
-            return timout(ms);
+            return timeout(ms);
         };
 
         const setTicksComplete = () => {
@@ -232,7 +224,7 @@ function CountTracker(props) {
 
             //setSetTicks(null);
             // return a promise that can call completion code
-            return timout(1);
+            return timeout(1);
         };
 
         setSetStarted(true);
@@ -243,7 +235,7 @@ function CountTracker(props) {
         const ticksPerSecond = 1000 / ms;
         const setTicks = startSetDelay * ticksPerSecond;
 
-        let chain = timout(ms);     // this one is not counted in our for loop
+        let chain = timeout(ms);     // this one is not counted in our for loop
         for (let i = 0; i < setTicks - 1; i++) {
             chain = chain.then(() => doSetTick());
         }
@@ -257,39 +249,59 @@ function CountTracker(props) {
         setSetStarted(false);
      }
 
+
      function secondsInASetChanged(e) {
         setSecondsInASet(parseInt(e.target.value));
     }
 
+    const settingDialogContent = (
+        <div>
+            <label>Mute<input type="checkbox" name="mute" onChange={toggleMute} checked={mute}/></label>
+            <div>
+            <label>Seconds per set:
+                <select value={secondsInASet.toString()} onChange={secondsInASetChanged}>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                </select>
+            </label>
+            </div>
+        </div>
+    );
+
     return  (
-        <div className="container">
-            <div className="header">Count Tracker</div>
-            <div onClick={incrementCount} className="plus">+</div>
-            <div className={`seconds ${seconds === null ? '' : 'seconds-active'}`}>{seconds === 0 || seconds == null ? '' : seconds.toString()}</div>
-            <div className="count">{count}</div>
-            <div onClick={resetCount} className="reset">Reset</div>
-            <div onClick={decrementCount} className="minus">-</div>
-            <div className="mute"><label><input type="checkbox" name="mute" onChange={toggleMute} checked={mute}/>Mute</label></div>
-            <div onClick={setStarted ? stopSet : startSet} className="start-set">{setStarted ? 'Stop Set' : 'Start Set'}</div>
-            <div onClick={seconds === null ? startInterval : stopInterval} className="start">{seconds === null ? 'Start' : 'Stop'}</div>
-            <div className="settings">
-                <label>Seconds per set:
-                    <select value={secondsInASet.toString()} onChange={secondsInASetChanged}>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                        <option value="10">10</option>
-                        <option value="15">15</option>
-                        <option value="20">20</option>
-                        <option value="30">30</option>
-                    </select>
-                </label>
+        <div>
+            <div onClick={onSettings}>
+            <Hamburger isOpen={false}/>
+            </div>
+            <div className="container">
+                <div className="header">Count Tracker</div>
+                <DialogModal
+                    title="Settings"
+                    isOpened={isSettingsDialogOpened}
+                    onProceed={null}
+                    onClose={() => setIsSettingsDialogOpened(false)}
+                >
+                    {settingDialogContent}
+                </DialogModal>
+                <button type="button" onClick={incrementCount} className="plus">+</button>
+                <div className={`seconds ${seconds === null ? '' : 'seconds-active'}`} data-testid="seconds" >{seconds === 0 || seconds == null ? '' : seconds.toString()}</div>
+                <div className="count" data-testid="count" id="count">{count}</div>
+                <button type="button" onClick={resetCount} className="reset">Reset</button>
+                <button type="button" onClick={decrementCount} className="minus">-</button>
+                <div onClick={setStarted ? stopSet : startSet} className="start-set">{setStarted ? 'Stop Set' : 'Start Set'}</div>
+                <div onClick={seconds === null ? startInterval : stopInterval} className="start" data-testid="startStop">{seconds === null ? 'Start' : 'Stop'}</div>
+                <button type="button" className="settings" onClick={onSettings}>Settings...</button>
             </div>
         </div>
         );

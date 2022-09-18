@@ -69,7 +69,7 @@
     padding: 0rem 1rem;
 }
 
-.mute {
+/* .mute {
     grid-area: mute;
     background-color: lightseagreen;
     font-size: 2rem;
@@ -77,27 +77,28 @@
     align-items: center;
     justify-content: center;
 }
-
+ */
 .settings {
     grid-area: settings;
     background-color: gray;
     font-size: 2rem;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column;
+/*    align-items: left;
+    justify-content: left;  */
 }
 
 .container {
     display: grid;
     grid-template-columns: 50% 50%;
-    grid-template-rows: 5rem 5rem 5rem 5rem 5rem 15rem;
+    grid-template-rows: 5rem 5rem 5rem 5rem 5rem 15rem 7.5rem;
     gap: .5rem;
     
     grid-template-areas:
         "header header"
         "plus seconds"
         "count reset"
-        "minus mute"
+        "minus ."
         "start-set start-set"
         "start start"
         "settings settings";
