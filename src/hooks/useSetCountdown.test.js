@@ -6,10 +6,10 @@ import useSetCountdown from './useSetCountdown' ;
 
 function TestComponent({ticksPerSet, millisecondsPerTick, setCount}) {
 
-    const [setsRemaining, startSetCountdown, cancelSetCountdown] = useSetCountdown(ticksPerSet, millisecondsPerTick, setCount);
+    const [setsRemaining, startSetCountdown, cancelSetCountdown] = useSetCountdown();
  
     return <div>
-        <button type="button" onClick={startSetCountdown}>start set</button>
+        <button type="button" onClick={startSetCountdown(setCount, ticksPerSet, millisecondsPerTick)}>start set</button>
         <button type="button" onClick={cancelSetCountdown}>cancel set</button>
         <div data-testid="setsRemaining">{setsRemaining}</div>
     </div>;

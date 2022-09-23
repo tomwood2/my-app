@@ -2,13 +2,13 @@
 import {render, fireEvent, screen, waitFor } from "@testing-library/react"
 import { useEffect } from "react";
 import { act } from 'react-dom/test-utils';
-import useTickCountdown from './useTickCountdown';
+import useTimeCountdown from './useTimeCountdown';
 
 function TestComponent({initialTick, millisecondsInATick}) {
     const callback = () => {
         console.log(`useEffect callback: currentTick = ${currentTick}`);
     };
-    const [currentTick, startCountdown, cancelCountdown] = useTickCountdown(initialTick, millisecondsInATick);
+    const [currentTick, startCountdown, cancelCountdown] = useTimeCountdown(initialTick, millisecondsInATick);
     useEffect(callback, [currentTick]);
 
 //    console.log(`in TestComponent with currentTick=${currentTick}`)
@@ -19,7 +19,7 @@ function TestComponent({initialTick, millisecondsInATick}) {
     </div>;
   }
 
-  describe('test useTickcountdown', () => {
+  describe('test useTimeCountdown', () => {
 
     beforeAll(() => {
         jest.useFakeTimers();
@@ -136,7 +136,7 @@ function TestComponent({initialTick, millisecondsInATick}) {
         expect(currentTick).toHaveTextContent(/^2$/);
 
         // press the cancel button
-        
+
         act(() => {
             fireEvent.click(cancel);
         });

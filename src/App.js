@@ -19,7 +19,7 @@ function App() {
         </a>
       </header> */}
 
-      <CountTracker count='0'/>
+      <CountTracker />
 
     </div>
   );
