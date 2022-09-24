@@ -56,7 +56,8 @@ function CountTracker() {
     }, [currentTick]);
 
     useEffect(() => {
-        if (setsRemaining === 0) {
+        // don't play sound on startup or starting first set
+        if (setsRemaining !== -1 && setsRemaining !== setsCount) {
             if (!muteRef.current) {
                 playIntervalEnded();
             }
