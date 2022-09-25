@@ -2,67 +2,44 @@
 import React, {useState, useEffect, useRef} from 'react';
 import {useSound} from 'use-sound';
 import {useStickyState} from './hooks/useStickyState';
-import useTimeCountdown from './hooks/useTimeCountdown';
 import useSetCountdown from './hooks/useSetCountdown';
 import _44 from './sounds/415862__arianestolfi__44.mp3';
 import decide from './sounds/144319__fumiya112__decide.mp3';
 import arcadeButtonClickSound from './sounds/157871__orginaljun__arcade-button-1-click-sound.mp3';
 import {DialogModal} from "./utils/DialogModal";
-//import secondsTicker from './utils/secondsTicker';
-//import timeout from './utils/timeout';
 import './CountTracker.css';
 import Hamburger from './Hamburger';
-
-//const timout = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 // TODO: rename count to setCount
 // TODO: rename secondsInASet to ticksInASet
 
-// default countProp to 0 and empty object as default props
 function CountTracker() {
 
     const [secondsInASet, setSecondsInASet] = useStickyState(20, 'countTracker.secondsInASet');
     const [mute, setMute] = useStickyState(false, 'countTracker.mute');
     const [isSettingsDialogOpened, setIsSettingsDialogOpened] = useState(false);
-
-    const [currentDelayTick, startDelayCountdown, cancelDelayCountdown] = useTimeCountdown();
-    const [setsRemaining, startSetCountdown, cancelSetCountdown, currentTick] = useSetCountdown();
+    const [currentDelayTick, currentTick, setsRemaining, startSetCountdown, cancelSetCountdown] = useSetCountdown();
 
     const muteRef = useRef();
     muteRef.current = mute;     // interval callback uses this to read mute state
 
     // put these in properties
-    const setsCount = 2;   // counts
+    const setsCount = 3;   // counts
     const startSetDelay = 1;      // seconds
 
     useEffect(() => {
-        // ignore initial value notification
-        if (currentDelayTick !== -1) {
-            if (!muteRef.current) {
-                playTick();     // plays tick when starting too
-            }
-
-            if (currentDelayTick === 0) {
-                startSetCountdown(setsCount, secondsInASet, 1000);
-            }
-        }
-    }, [currentDelayTick]);
-
-    useEffect(() => {
         // ignore initial value notification (-1)
-        if (currentTick !== -1 && !muteRef.current) {
+        if (currentTick !== -1 && currentDelayTick != -1 && !muteRef.current) {
             playTick();
         }
-    }, [currentTick]);
+    }, [currentTick, currentDelayTick]);
 
     useEffect(() => {
         // don't play sound on startup or starting first set
-        if (setsRemaining !== -1 && setsRemaining !== setsCount) {
-            if (!muteRef.current) {
-                playIntervalEnded();
-            }
+        if (setsRemaining !== -1 && setsRemaining !== setsCount && !muteRef.current) {
+            playIntervalEnded();
         }
-    }, [setsRemaining]);
+    }, [setsRemaining, setsCount]);
 
     const [playStartButtonClicked] = useSound(
         arcadeButtonClickSound,
@@ -109,7 +86,7 @@ function CountTracker() {
     }
 
     function startSet(event) {
-        startDelayCountdown(startSetDelay * 4, 250);
+        startSetCountdown(setsCount, secondsInASet, 1000);
     }
      function stopSet() {
         cancelSetCountdown();

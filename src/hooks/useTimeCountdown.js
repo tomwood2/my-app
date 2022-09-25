@@ -1,10 +1,12 @@
 
 import {useState, useEffect} from 'react';
+import useSetCountdown from './useSetCountdown';
 
 function useTimeCountdown() {
 
     const [millisecondsPerTick, setMillisecondsPerTick] = useState(0);
     const [currentTick, setCurrentTick] = useState(-1);
+    const [countdownCompleted, setCoundownCompleted] = useState(false);
     const [timerId, setTimerId]  = useState(0);
 
     const timeoutFunction = () => {
@@ -16,7 +18,11 @@ function useTimeCountdown() {
 
         if (currentTick > 0) {
             setTimerId(setTimeout(timeoutFunction, millisecondsPerTick));
+        } else if (currentTick == 0) {
+            setCoundownCompleted(true);
         }
+
+
         // else if (currentTick < 0) {
         //     throw 'useTimeCountdown.useEffect.currentTick changed to a negative number';
         // }
@@ -24,6 +30,7 @@ function useTimeCountdown() {
 
     const startCountdown = (ticks, millisecondsPerTick = 1000) => {
         setMillisecondsPerTick(millisecondsPerTick);
+        setCoundownCompleted(false);
         setCurrentTick(ticks);      // this will trigger useEffect method which will start a timer
     };
 
@@ -42,10 +49,10 @@ function useTimeCountdown() {
         // render will be called
         // useEffect will be called with currentTick == 0
 
-        setCurrentTick(0);      // this will trigger effect in useSetCountdown
+        setCurrentTick(0);
     };
 
-    return [currentTick, startCountdown, cancelCountdown];
+    return [currentTick, countdownCompleted, startCountdown, cancelCountdown];
 }
 
 export default useTimeCountdown;

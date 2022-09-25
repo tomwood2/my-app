@@ -3,28 +3,32 @@ import useTimeCountdown from './useTimeCountdown';
 
 function useSetCountdown() {
 
-    const [currentTick, startTimeCountdown, cancelTimeCountdown] = useTimeCountdown();
+    const startSetDelay = 1;      // seconds
+
+    const [currentTick, timeCountdownCompleted, startTimeCountdown, cancelTimeCountdown] = useTimeCountdown();
+    const [currentDelayTick, delayCountdownCompleted, startDelayCountdown, cancelDelayCountdown] = useTimeCountdown();
     const [ticksPerSet, setTicksPerSet] = useState(0);
     const [millisecondsPerTick, setMillisecondsPerTick] = useState(0);
     const [setsRemaining, setSetsRemaining] = useState(-1);
 
     useEffect(() => {
-        // when the currentTick goes to 0
-        // if the setsRemaining is > 0,
-        // decremnt the set count and start
-        // a new set
-
-        // console.log(`in useEffect[currentTick] currentTick=${currentTick}, setsRemaining = ${setsRemaining}`);
-
-        if (setsRemaining > 0 && currentTick === 0) {
-            const newSetsRemaining = setsRemaining - 1;
-            setSetsRemaining(newSetsRemaining);
-            if (newSetsRemaining > 0) {
-                startTimeCountdown(ticksPerSet, millisecondsPerTick);
-            }
+        if (timeCountdownCompleted === true) {
+            setSetsRemaining(setsRemaining - 1);
         }
+    }, [timeCountdownCompleted]);
 
-    }, [currentTick]);
+    useEffect(() => {
+        if (delayCountdownCompleted === true) {
+            startTimeCountdown(ticksPerSet, millisecondsPerTick);
+        }
+    }, [delayCountdownCompleted]);
+
+    useEffect(() => {
+        if (setsRemaining > 0) {
+            startDelayCountdown(startSetDelay * 4, 250);
+        }
+    }, [setsRemaining]);
+
 
     // call this with 1 to start a single set
     const startCountdown = (setCount, ticksPerSet, millisecondsPerTick) => {
@@ -32,7 +36,7 @@ function useSetCountdown() {
         setTicksPerSet(ticksPerSet);
         setMillisecondsPerTick(millisecondsPerTick);
         setSetsRemaining(setCount); // this should start the timer (see useEffect)
-        startTimeCountdown(ticksPerSet, millisecondsPerTick);
+        startDelayCountdown(startSetDelay * 4, 250);
     };
 
     const cancelCountdown = () => {
@@ -40,8 +44,7 @@ function useSetCountdown() {
         setSetsRemaining(0);  // this will stop 
     };
 
-    // TODO: dont reutrn start/canel time countdown
-    return [setsRemaining, startCountdown, cancelCountdown, currentTick];
+    return [currentDelayTick, currentTick, setsRemaining, startCountdown, cancelCountdown];
 }
 
 export default useSetCountdown;
