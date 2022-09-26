@@ -3,7 +3,7 @@ import useTimeCountdown from './useTimeCountdown';
 
 function useSetCountdown() {
 
-    const startSetDelay = 1;      // seconds
+    const startSetDelay = 2;      // seconds
 
     const [currentTick, timeCountdownCompleted, startTimeCountdown, cancelTimeCountdown] = useTimeCountdown();
     const [currentDelayTick, delayCountdownCompleted, startDelayCountdown, cancelDelayCountdown] = useTimeCountdown();
@@ -12,27 +12,26 @@ function useSetCountdown() {
     const [setsRemaining, setSetsRemaining] = useState(-1);
 
     useEffect(() => {
-        if (timeCountdownCompleted === true) {
-            setSetsRemaining(setsRemaining - 1);
-        }
-    }, [timeCountdownCompleted]);
-
-    useEffect(() => {
-        if (delayCountdownCompleted === true) {
+        if (delayCountdownCompleted) {
             startTimeCountdown(ticksPerSet, millisecondsPerTick);
         }
     }, [delayCountdownCompleted]);
 
     useEffect(() => {
+        if (timeCountdownCompleted) {
+            setSetsRemaining(setsRemaining - 1);
+        }
+    }, [timeCountdownCompleted]);
+
+    useEffect(() => {
         if (setsRemaining > 0) {
-            startDelayCountdown(startSetDelay * 4, 250);
+            startDelayCountdown(startSetDelay * 4, 250);                                              
         }
     }, [setsRemaining]);
 
 
     // call this with 1 to start a single set
     const startCountdown = (setCount, ticksPerSet, millisecondsPerTick) => {
-        cancelTimeCountdown();      // incase it's running
         setTicksPerSet(ticksPerSet);
         setMillisecondsPerTick(millisecondsPerTick);
         setSetsRemaining(setCount); // this should start the timer (see useEffect)
@@ -40,8 +39,10 @@ function useSetCountdown() {
     };
 
     const cancelCountdown = () => {
-        cancelTimeCountdown(); // kill the time countdown too
-        setSetsRemaining(0);  // this will stop 
+        cancelDelayCountdown();
+        cancelTimeCountdown();
+        // use -1 when cancel to indicate abnormal finish
+        setSetsRemaining(-1);
     };
 
     return [currentDelayTick, currentTick, setsRemaining, startCountdown, cancelCountdown];

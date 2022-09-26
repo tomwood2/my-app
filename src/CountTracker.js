@@ -15,6 +15,7 @@ import Hamburger from './Hamburger';
 
 function CountTracker() {
 
+    const [setsCount, setSetsCount] = useStickyState(10, 'countTracker.setsCount');
     const [secondsInASet, setSecondsInASet] = useStickyState(20, 'countTracker.secondsInASet');
     const [mute, setMute] = useStickyState(false, 'countTracker.mute');
     const [isSettingsDialogOpened, setIsSettingsDialogOpened] = useState(false);
@@ -23,16 +24,19 @@ function CountTracker() {
     const muteRef = useRef();
     muteRef.current = mute;     // interval callback uses this to read mute state
 
-    // put these in properties
-    const setsCount = 3;   // counts
-    const startSetDelay = 1;      // seconds
+    useEffect(() => {
+        // ignore initial value notification (-1)
+        if (currentDelayTick !== -1 && !muteRef.current) {
+            playTick();
+        }
+    }, [currentDelayTick]);
 
     useEffect(() => {
         // ignore initial value notification (-1)
-        if (currentTick !== -1 && currentDelayTick != -1 && !muteRef.current) {
+        if (currentTick !== -1 && !muteRef.current) {
             playTick();
         }
-    }, [currentTick, currentDelayTick]);
+    }, [currentTick]);
 
     useEffect(() => {
         // don't play sound on startup or starting first set
@@ -100,6 +104,10 @@ function CountTracker() {
         setSecondsInASet(parseInt(e.target.value));
     }
 
+    function setsCountChanged(e) {
+        setSetsCount(parseInt(e.target.value));
+    }
+
     const settingDialogContent = (
         <div>
             <label>Mute<input type="checkbox" name="mute" onChange={toggleMute} checked={mute}/></label>
@@ -119,6 +127,22 @@ function CountTracker() {
                     <option value="15">15</option>
                     <option value="20">20</option>
                     <option value="30">30</option>
+                </select>
+            </label>
+            </div>
+            <div>
+            <label>Sets Count:
+                <select value={setsCount.toString()} onChange={setsCountChanged}>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
                 </select>
             </label>
             </div>
