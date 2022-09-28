@@ -2,6 +2,17 @@
 changes:
 
 ///////////////////////////////////////
+// 9/27/22
+
+TODO: Make 2 components - one for manual counting, one for repeating sets of timeCoundownCompleted
+TODO: Fix unit tests
+
+useTimeCountdown.js
+
+Added comment at top of file explaining behavior
+Modified README.md to be a basic explaination of the program
+
+///////////////////////////////////////
 // 9/26/22
 
 fixed unreferenced warnings from eslint
