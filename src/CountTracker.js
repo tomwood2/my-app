@@ -22,7 +22,7 @@ function CountTracker() {
     const [currentDelayTick, currentTick, setsRemaining, startSetCountdown, cancelSetCountdown] = useSetCountdown();
 
     const muteRef = useRef();
-    muteRef.current = mute;     // interval callback uses this to read mute state
+    muteRef.current = mute;     // update on each render
 
     useEffect(() => {
         // ignore initial value notification (-1)

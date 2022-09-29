@@ -1,39 +1,48 @@
 
 changes:
 
-change in test-branch-2
-changes in test-branch-1
+---
+## 9/28/22
 
-///////////////////////////////////////
-// 9/27/22
+- useTimeCountdown.js
+  - removed countdownCompleted state property as the effect used to set it
+  - changed millisecondsPerTick and timerId from state variables to refs.  They are used in logic only, not rendering.
 
-TODO: Make 2 components - one for manual counting, one for repeating sets of timeCoundownCompleted
-TODO: Fix unit tests
+- useSetCountdown.js
+  - removed references to delayCountdownCompleted and timeCountdownCompleted.  Modified effects using them to use currentDelayTick and currentTick.
+  - changed millisecondsPerTick and ticksPerSet from state variables to refs.  They are used in logic only, not rendering.
+  - added documentation to top of source file
 
-useTimeCountdown.js
+- changes.txt
+  - renamed CHANGES.md and added formating
 
-Added comment at top of file explaining behavior
-Modified README.md to be a basic explaination of the program
+---
+## 9/27/22
 
-///////////////////////////////////////
-// 9/26/22
+- [ ] Make 2 components - one for manual counting, one for repeating sets of timeCoundownCompleted
+- [ ] Fix unit tests
 
-fixed unreferenced warnings from eslint
+-useTimeCountdown.js
+  - Added comment at top of file explaining behavior
+  - Modified README.md to be a basic explaination of the program
 
-CountTracker.js
-Made setsCount a sticky state variable in CountTracker
-Added setsCount to settings dialog
-Separated useEffect for currentDelayTick and currentTick into
-    separate functions - didn't work correctly with both dependencies
+---
+## 9/26/22
 
-useSetCoundown.js
-moved the useEffect[delayCoundownCompleted] function to before
-    useEffect[timeCoundownCompleted]
-removed cancelTimeCountdown() call from startCountdown()
-set setsRemaining to -1 in cancelCountdown()
+- fixed unreferenced warnings from eslint
 
-useTimeCountdown.js
-in cancelCountdown(), setCurrentTick to -1
+- CountTracker.js
+  - Made setsCount a sticky state variable in CountTracker
+  - Added setsCount to settings dialog
+  - Separated useEffect for currentDelayTick and currentTick into separate functions - didn't work correctly with both dependencies
+
+- useSetCoundown.js
+  - moved the useEffect[delayCoundownCompleted] function to before useEffect[timeCoundownCompleted]
+  - removed cancelTimeCountdown() call from startCountdown()
+  - set setsRemaining to -1 in cancelCountdown()
+
+- useTimeCountdown.js
+  - in cancelCountdown(), setCurrentTick to -1
 
 
 still getting negative setsRemaining state when saving source files while server running
