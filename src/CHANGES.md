@@ -1,5 +1,33 @@
 
-changes:
+---
+# To Do
+
+- Starting a single set plays set complete sound on start
+- Add sounds to CountTracker
+- Refactor settings
+- put hamburger, component heading and component in a grid in App or a new controller component
+
+---
+# Changes:
+
+---
+## 9/30/22
+
+### Split CountTracker into 2 components.
+
+  - One for manual count (CountTraker)
+  - One for counting timed sets (SetCounter)
+
+  - SetCounter.js, .css
+    - Started with copy of CountTraker and removed manual controls and handers
+
+    -CountTracker.js, .css
+      -removed all time and set code
+
+    -App.js
+      -added sticky state that indicates which of the two above compents are currently displayed
+      -added buttons to switch from one component to the other
+
 
 ---
 ## 9/28/22
