@@ -1,12 +1,12 @@
 
-.header {
+.count-tracker-header {
     grid-area: header;
     color: whitesmoke;
     place-self: center;
     font-size: 2.5rem;
 }
 
-.plus {
+.count-tracker-plus {
     grid-area: plus;
     place-self: stretch;
     padding: 0rem 1rem;
@@ -14,17 +14,7 @@
     font-size: 4rem;
 }
 
-.seconds {
-    grid-area: seconds;
-    place-self: stretch;
-    font-size: 4rem;
-}
-
-.seconds-active {
-    background-color: lavender;
-}
-
-.minus {
+.count-tracker-minus {
     grid-area: minus;
     place-self: stretch;
     padding: 0rem 1rem;
@@ -32,14 +22,14 @@
     font-size: 4rem;
 }
 
-.count {
+.count-tracker-count {
     grid-area: count;
     place-self: center;
     font-size: 5rem;
     color: whitesmoke;
 }
 
-.reset {
+.count-tracker-reset {
     grid-area: reset;
     place-self: stretch;
     background-color: lightskyblue;
@@ -47,59 +37,15 @@
     padding: 0rem 1rem;
 }
 
-.start {
-    grid-area: start;
-    place-self: stretch;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: lightyellow;
-    font-size: 4rem;
-    padding: 0rem 1rem;
-}
-
-.start-set {
-    grid-area: start-set;
-    place-self: stretch;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: lightpink;
-    font-size: 3rem;
-    padding: 0rem 1rem;
-}
-
-/* .mute {
-    grid-area: mute;
-    background-color: lightseagreen;
-    font-size: 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
- */
-.settings {
-    grid-area: settings;
-    background-color: gray;
-    font-size: 2rem;
-    display: flex;
-    flex-direction: column;
-/*    align-items: left;
-    justify-content: left;  */
-}
-
-.container {
+.count-tracker-container {
     display: grid;
     grid-template-columns: 50% 50%;
-    grid-template-rows: 5rem 5rem 5rem 5rem 5rem 15rem 7.5rem;
+    grid-template-rows: 5rem 5rem 5rem 5rem 5rem;
     gap: .5rem;
     
     grid-template-areas:
         "header header"
-        "plus seconds"
+        "plus ."
         "count reset"
-        "minus ."
-        "start-set start-set"
-        "start start"
-        "settings settings";
+        "minus .";
     }

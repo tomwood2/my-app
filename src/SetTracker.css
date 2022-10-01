@@ -1,0 +1,71 @@
+
+.set-counter-header {
+    grid-area: header;
+    color: whitesmoke;
+    place-self: center;
+    font-size: 2.5rem;
+}
+
+.set-counter-seconds {
+    grid-area: seconds;
+    place-self: stretch;
+    background-color: lavender;
+    font-size: 5rem;
+}
+
+.set-counter-count {
+    grid-area: count;
+    place-self: stretch;
+    font-size: 5rem;
+    background-color: lightskyblue;
+}
+
+.set-counter-start {
+    grid-area: start;
+    place-self: stretch;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: lightpink;
+    font-size: 4rem;
+    padding: 0rem 1rem;
+}
+
+.set-counter-start-single-set {
+    grid-area: start-single-set;
+    place-self: stretch;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: lightyellow;
+    font-size: 3rem;
+    padding: 0rem 1rem;
+}
+
+.set-counter-count-heading {
+    grid-area: count-heading;
+    color: whitesmoke;
+    background-color: navy;
+    font-size: 2rem;
+}
+
+.set-counter-seconds-heading {
+    grid-area: seconds-heading;
+    color: whitesmoke;
+    background-color: navy;
+    font-size: 2rem;
+}
+
+.set-counter-container {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 5rem 3rem 7rem 15rem 5rem;
+    gap: .5rem;
+    
+    grid-template-areas:
+        "header header"
+        "count-heading seconds-heading"
+        "count seconds"
+        "start start"
+        "start-single-set start-single-set";
+    }

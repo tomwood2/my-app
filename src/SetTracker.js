@@ -2,36 +2,68 @@
 import React, {useState, useEffect, useRef} from 'react';
 import {useSound} from 'use-sound';
 import {useStickyState} from './hooks/useStickyState';
+import useSetCountdown from './hooks/useSetCountdown';
 import _44 from './sounds/415862__arianestolfi__44.mp3';
 import decide from './sounds/144319__fumiya112__decide.mp3';
 import arcadeButtonClickSound from './sounds/157871__orginaljun__arcade-button-1-click-sound.mp3';
 import {DialogModal} from "./utils/DialogModal";
-import './CountTracker.css';
+import './SetTracker.css';
 import Hamburger from './Hamburger';
 
-function CountTracker() {
+// TODO: rename count to setCount
+// TODO: rename secondsInASet to ticksInASet
+
+function SetTracker() {
 
     const [setsCount, setSetsCount] = useStickyState(10, 'countTracker.setsCount');
     const [secondsInASet, setSecondsInASet] = useStickyState(20, 'countTracker.secondsInASet');
     const [mute, setMute] = useStickyState(false, 'countTracker.mute');
     const [isSettingsDialogOpened, setIsSettingsDialogOpened] = useState(false);
-
-    const [count, setCount] = useState(0);
+    const [currentDelayTick, currentTick, setsRemaining, startSetCountdown, cancelSetCountdown] = useSetCountdown();
 
     const muteRef = useRef();
     muteRef.current = mute;     // update on each render
 
-    function incrementCount() {
-        setCount(count => count + 1);
-    }
+    useEffect(() => {
+        // ignore initial value notification (-1)
+        if (currentDelayTick !== -1 && !muteRef.current) {
+            playTick();
+        }
+    }, [currentDelayTick]);
 
-    function decrementCount() {
-        setCount(count => count === 0 ? 0 : count - 1 );
-    }
-    
-    function resetCount() {
-        setCount(0);
-    }
+    useEffect(() => {
+        // ignore initial value notification (-1)
+        if (currentTick !== -1 && !muteRef.current) {
+            playTick();
+        }
+    }, [currentTick]);
+
+    useEffect(() => {
+        // don't play sound on startup or starting first set
+        if (setsRemaining !== -1 && setsRemaining !== setsCount && !muteRef.current) {
+            playIntervalEnded();
+        }
+    }, [setsRemaining, setsCount]);
+
+    const [playStartButtonClicked] = useSound(
+        arcadeButtonClickSound,
+        { volume: 0.75 }
+    );
+
+    const [playStopButtonClicked] = useSound(
+        arcadeButtonClickSound, // use same for now
+        { volume: 0.75 }
+    );
+
+    const [playIntervalEnded] = useSound(
+        decide,
+        { volume: 0.2 }
+    );
+
+    const [playTick] = useSound(
+        _44,
+        { volume: 0.3 }
+    );
 
     function onSettings() {
         setIsSettingsDialogOpened(true);
@@ -39,6 +71,17 @@ function CountTracker() {
 
     function toggleMute() {
         setMute(mute => !mute);
+    }
+
+    function startSet(event) {
+        startSetCountdown(setsCount, secondsInASet, 1000);
+    }
+     function stopSet() {
+        cancelSetCountdown();
+     }
+
+     function startSingleSet() {
+        startSetCountdown(1, secondsInASet);
     }
 
      function secondsInASetChanged(e) {
@@ -95,8 +138,8 @@ function CountTracker() {
             <div onClick={onSettings}>
             <Hamburger isOpen={false}/>
             </div>
-            <div className="count-tracker-container">
-                <div className="count-tracker-header">Count Tracker</div>
+            <div className="set-counter-container">
+                <header className="set-counter-header">Set Tracker</header>
                 <DialogModal
                     title="Settings"
                     isOpened={isSettingsDialogOpened}
@@ -105,13 +148,15 @@ function CountTracker() {
                 >
                     {settingDialogContent}
                 </DialogModal>
-                <button type="button" onClick={incrementCount} className="count-tracker-plus">+</button>
-                <div className="count-tracker-count" data-testid="count" id="count">{count}</div>
-                <button type="button" onClick={resetCount} className="count-tracker-reset">Reset</button>
-                <button type="button" onClick={decrementCount} className="count-tracker-minus">-</button>
+                <header className="set-counter-count-heading">Sets Remaining</header>
+                <header className="set-counter-seconds-heading">Seconds Remaining</header>
+                <header className="set-counter-seconds" data-testid="seconds" >{currentTick <= 0 ? '' : currentTick.toString()}</header>
+                <header className="set-counter-count" data-testid="count" id="count">{setsRemaining < 0 ? '' : setsRemaining}</header>
+                <button type="button" onClick={setsRemaining <= 0 ? startSet : stopSet} className="set-counter-start">{setsRemaining <= 0 ? 'Start' : 'Stop'}</button>
+                <button type="button" onClick={setsRemaining <= 0 ? startSingleSet : () => {}} className="set-counter-start-single-set" data-testid="startStop">{setsRemaining <= 0 ? 'Start Single Set' : ''}</button>
             </div>
         </div>
         );
 }
 
-export default CountTracker;
+export default SetTracker;
