@@ -1,11 +1,3 @@
-
-.set-counter-header {
-    grid-area: header;
-    color: whitesmoke;
-    place-self: center;
-    font-size: 2.5rem;
-}
-
 .set-counter-seconds {
     grid-area: seconds;
     place-self: stretch;
@@ -59,11 +51,10 @@
 .set-counter-container {
     display: grid;
     grid-template-columns: 50% 50%;
-    grid-template-rows: 5rem 3rem 7rem 15rem 5rem;
+    grid-template-rows: 3rem 7rem 15rem 5rem;
     gap: .5rem;
     
     grid-template-areas:
-        "header header"
         "count-heading seconds-heading"
         "count seconds"
         "start start"

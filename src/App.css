@@ -36,3 +36,22 @@
     transform: rotate(360deg);
   }
 }
+
+.title-continer {
+  display: grid;
+  grid-template-columns: 2rem auto 2rem;
+  justify-items: center;
+
+  padding: 0;
+  margin: 0;
+}
+
+.title-item {
+  padding: .5rem;
+  color: whitesmoke;
+  font-size: 2.5rem;
+}
+
+.title-item:nth-child(1) { margin-right: auto; }
+.title-item:nth-child(2) { grid-column-start: 2; }
+

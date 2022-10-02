@@ -1,11 +1,4 @@
 
-.count-tracker-header {
-    grid-area: header;
-    color: whitesmoke;
-    place-self: center;
-    font-size: 2.5rem;
-}
-
 .count-tracker-plus {
     grid-area: plus;
     place-self: stretch;
@@ -40,11 +33,10 @@
 .count-tracker-container {
     display: grid;
     grid-template-columns: 50% 50%;
-    grid-template-rows: 5rem 5rem 5rem 5rem 5rem;
+    grid-template-rows: 5rem 5rem 5rem;
     gap: .5rem;
     
     grid-template-areas:
-        "header header"
         "plus ."
         "count reset"
         "minus .";

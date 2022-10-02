@@ -2,16 +2,35 @@
 ---
 # To Do
 
-- Starting a single set plays set complete sound on start
-- Add sounds to CountTracker
-- Refactor settings
-- put hamburger, component heading and component in a grid in App or a new controller component
+- [X] Make 2 components - one for manual counting, one for repeating sets of timeCoundownCompleted
+- [ ] Fix unit tests
+- [ ] Starting a single set plays set complete sound on start
+- [ ] Add sounds to CountTracker
+- [ ] Refactor settings
+- [X] put hamburger, component heading and component in a grid in App or a new controller component
 
 ---
 # Changes:
 
 ---
-## 9/30/22
+## 10/1/22 - xxxxxx
+
+### Moved hamburger, component heading and settings dialog into App component.
+
+  - App.js, .css
+    - moved sticky state dialog variables to here
+    - moved methods for changing the above states to here
+    - moved the DialogModal and settingDialogContent to here
+    - passed sticky state variables to SetTracker as properties
+
+  - CountTracker.js, .css
+    - removed dialog and it's states
+
+  - SetTracker.js, .css
+    - removed dialog and its states.
+    - modified function args to accept properties for these values
+---
+## 9/30/22 - 6a20ad2
 
 ### Split CountTracker into 2 components.
 
@@ -47,9 +66,6 @@
 ---
 ## 9/27/22
 
-- [ ] Make 2 components - one for manual counting, one for repeating sets of timeCoundownCompleted
-- [ ] Fix unit tests
-
 -useTimeCountdown.js
   - Added comment at top of file explaining behavior
   - Modified README.md to be a basic explaination of the program
@@ -81,31 +97,27 @@ doesn't seem to cancel properly when delay counter is goiong
 
 [eslint] 
 src\CountTracker.js
-                                                          no-unused-vars   
-                                                          eqeqeq
-  Line 35:8:   React Hook useEffect has a missing dependency: 'playTick'. Either include it or remove the dependency array           react-hooks/exhaustive-deps
-  Line 42:8:   React Hook useEffect has a missing dependency: 'playIntervalEnded'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
-  Line 44:12:  'playStartButtonClicked' is assigned a value but never used 
-                                                          no-unused-vars   
-  Line 49:12:  'playStopButtonClicked' is assigned a value but never used  
-                                                          no-unused-vars   
+  Line 2:26:  'useEffect' is defined but never used               no-unused-vars
+  Line 3:9:   'useSound' is defined but never used                no-unused-vars
+  Line 5:8:   '_44' is defined but never used                     no-unused-vars
+  Line 6:8:   'decide' is defined but never used                  no-unused-vars
+  Line 7:8:   'arcadeButtonClickSound' is defined but never used  no-unused-vars
+
+src\SetTracker.js
+  Line 32:8:   React Hook useEffect has a missing dependency: 'playTick'. Either include it or remove the dependency array           react-hooks/exhaustive-deps
+  Line 39:8:   React Hook useEffect has a missing dependency: 'playTick'. Either include it or remove the dependency array           react-hooks/exhaustive-deps
+  Line 46:8:   React Hook useEffect has a missing dependency: 'playIntervalEnded'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  Line 48:12:  'playStartButtonClicked' is assigned a value but never used                                                           no-unused-vars
+  Line 53:12:  'playStopButtonClicked' is assigned a value but never used                                                            no-unused-vars
 
 src\hooks\useSetCountdown.js
-  Line 9:76:  'cancelDelayCountdown' is assigned a value but never used    
-
-
-                                 no-unused-vars
-  Line 18:8:  React Hook useEffect has a missing dependency: 'setsRemaining'. Either include it or remove the dependency array. You can also do a functional update 'setSetsRemaining(s => ...)' if you only need 'setsRemaining' in the 'setSetsRemaining' call  react-hooks/exhaustive-deps
-  Line 24:8:  React Hook useEffect has missing dependencies: 'millisecondsPerTick', 'startTimeCountdown', and 'ticksPerSet'. Either include them or remove the dependency array
-                                 react-hooks/exhaustive-deps
-  Line 30:8:  React Hook useEffect has a missing dependency: 'startDelayCountdown'. Either include it or remove the dependency array
-
-                                 react-hooks/exhaustive-deps
+  Line 43:8:  React Hook useEffect has a missing dependency: 'startTimeCountdown'. Either include it or remove the dependency array
+                                                            react-hooks/exhaustive-deps
+  Line 49:8:  React Hook useEffect has a missing dependency: 'setsRemaining'. Either include it or remove the dependency array. You can also do a functional update 'setSetsRemaining(s => ...)' if you only need 'setsRemaining' in the 'setSetsRemaining' call  react-hooks/exhaustive-deps
+  Line 55:8:  React Hook useEffect has a missing dependency: 'startDelayCountdown'. Either include it or remove the dependency array
+                                                            react-hooks/exhaustive-deps
 
 src\hooks\useTimeCountdown.js
-                                                                 no-unused-vars
-                                                                 eqeqeq    
-  Line 29:8:   React Hook useEffect has missing dependencies: 'millisecondsPerTick' and 'timeoutFunction'. Either include them or remove the dependency array. You can also replace multiple useState variables with useReducer if 'setTimerId' needs the current value of 'millisecondsPerTick'  react-hooks/exhaustive-deps
-
+  Line 44:8:  React Hook useEffect has a missing dependency: 'timeoutFunction'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
 Search for the keywords to learn more about each warning.
 To ignore, add // eslint-disable-next-line to the line before.
