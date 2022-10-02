@@ -8,12 +8,14 @@
 - [ ] Add sounds to CountTracker
 - [ ] Refactor settings
 - [X] put hamburger, component heading and component in a grid in App or a new controller component
+- [ ] remove un-used source files
+- [ ] fix lint errors
 
 ---
 # Changes:
 
 ---
-## 10/1/22 - xxxxxx
+## 10/1/22 - ebbb8d8
 
 ### Moved hamburger, component heading and settings dialog into App component.
 

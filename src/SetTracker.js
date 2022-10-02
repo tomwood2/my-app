@@ -9,7 +9,7 @@ import './SetTracker.css';
 
 function SetTracker({setsCount = 10, secondsInASet = 20, mute = false} = {}) {
 
-    const [currentDelayTick, currentTick, setsRemaining, startSetCountdown, cancelSetCountdown] = useSetCountdown();
+    const [currentDelayTick, currentTick, setsRemaining, startingSetsCount, startSetCountdown, cancelSetCountdown] = useSetCountdown();
 
     const muteRef = useRef();
     muteRef.current = mute;     // update on each render
@@ -30,10 +30,10 @@ function SetTracker({setsCount = 10, secondsInASet = 20, mute = false} = {}) {
 
     useEffect(() => {
         // don't play sound on startup or starting first set
-        if (setsRemaining !== -1 && setsRemaining !== setsCount && !muteRef.current) {
+        if (setsRemaining !== -1 && setsRemaining !== startingSetsCount && !muteRef.current) {
             playIntervalEnded();
         }
-    }, [setsRemaining, setsCount]);
+    }, [setsRemaining, startingSetsCount]);
 
     const [playStartButtonClicked] = useSound(
         arcadeButtonClickSound,
