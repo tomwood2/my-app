@@ -4,7 +4,7 @@
 
 - [X] Make 2 components - one for manual counting, one for repeating sets of timeCoundownCompleted
 - [ ] Fix unit tests
-- [ ] Starting a single set plays set complete sound on start
+- [X] Starting a single set plays set complete sound on start
 - [ ] Add sounds to CountTracker
 - [ ] Refactor settings
 - [X] put hamburger, component heading and component in a grid in App or a new controller component
@@ -14,6 +14,27 @@
 ---
 # Changes:
 
+---
+## 10/2/22 - 382e036
+
+### Removed dead source files.  Fixed complete sound on starting single set.
+
+  - removed these files
+    - mockStorage.test.js
+    - mockStorage.js
+    - MyPromise.js
+    - MyPromise.test.js
+    - secondsTicker.js
+    - secondsTicker.test.js
+    - timeout.js
+    - timeout.test.js
+
+  - useSetCountdown.js
+    - add startingSetsCount ref to hold onto the setsCount argument passed to startSet and added it to the returned array
+    
+  - SetTracker.js
+    - modified call to useSetCountdown to hold onto new startingSetsCount value
+    - modified effect that calls playIntervalEnded to test startingSetsCount instead of setsCount as they are different when doing 1 set
 ---
 ## 10/1/22 - ebbb8d8
 
