@@ -5,7 +5,7 @@
 - [X] Make 2 components - one for manual counting, one for repeating sets of timeCoundownCompleted
 - [ ] Fix unit tests
 - [X] Starting a single set plays set complete sound on start
-- [ ] Add sounds to CountTracker
+- [X] Add sounds to CountTracker
 - [ ] Refactor settings
 - [X] put hamburger, component heading and component in a grid in App or a new controller component
 - [ ] remove un-used source files
@@ -13,6 +13,20 @@
 
 ---
 # Changes:
+
+---
+## 10/4/22
+
+### Setup sound in CountTracker.  Auto size heading in SetTracker
+  - CountTracker.js
+    - modified button handlers to call playClick if not muted
+  - SetTracker.js, .css
+    - removed playStartButtonClicked - not used
+    - added call to playClick when Stop button pressed
+    - Set height of 'sets reamaining / seconds remaining' row to be auto - when width of container is small, text goes to 2 lines and is obscured
+
+
+### Removed dead source files.  Fixed complete sound on starting single set.
 
 ---
 ## 10/2/22 - 382e036

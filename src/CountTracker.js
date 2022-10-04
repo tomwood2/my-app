@@ -1,8 +1,6 @@
 
 import React, {useState, useEffect, useRef} from 'react';
 import {useSound} from 'use-sound';
-import _44 from './sounds/415862__arianestolfi__44.mp3';
-import decide from './sounds/144319__fumiya112__decide.mp3';
 import arcadeButtonClickSound from './sounds/157871__orginaljun__arcade-button-1-click-sound.mp3';
 import './CountTracker.css';
 
@@ -13,16 +11,30 @@ function CountTracker({mute = false} = {}) {
     const muteRef = useRef();
     muteRef.current = mute;     // update on each render
 
+    const [playButtonClick] = useSound(
+        arcadeButtonClickSound,
+        { volume: 0.75 }
+    );
+
     function incrementCount() {
         setCount(count => count + 1);
+        if (!muteRef.current) {
+            playButtonClick();
+        }
     }
 
     function decrementCount() {
         setCount(count => count === 0 ? 0 : count - 1 );
+        if (!muteRef.current) {
+            playButtonClick();
+        }
     }
     
     function resetCount() {
         setCount(0);
+        if (!muteRef.current) {
+            playButtonClick();
+        }
     }
 
     return  (
