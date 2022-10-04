@@ -35,12 +35,7 @@ function SetTracker({setsCount = 10, secondsInASet = 20, mute = false} = {}) {
         }
     }, [setsRemaining, startingSetsCount]);
 
-    const [playStartButtonClicked] = useSound(
-        arcadeButtonClickSound,
-        { volume: 0.75 }
-    );
-
-    const [playStopButtonClicked] = useSound(
+    const [playButtonClick] = useSound(
         arcadeButtonClickSound, // use same for now
         { volume: 0.75 }
     );
@@ -61,6 +56,7 @@ function SetTracker({setsCount = 10, secondsInASet = 20, mute = false} = {}) {
 
     function stopSet() {
         cancelSetCountdown();
+        playButtonClick();
      }
 
      function startSingleSet() {
