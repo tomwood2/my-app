@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "/my-app/static/css/main.e4888831.css",
-    "main.js": "/my-app/static/js/main.9ee19e83.js",
+    "main.css": "/my-app/static/css/main.704eefb5.css",
+    "main.js": "/my-app/static/js/main.302d1da3.js",
     "static/js/845.ee66a780.chunk.js": "/my-app/static/js/845.ee66a780.chunk.js",
     "static/js/787.28cb0dcd.chunk.js": "/my-app/static/js/787.28cb0dcd.chunk.js",
     "static/media/144319__fumiya112__decide.mp3": "/my-app/static/media/144319__fumiya112__decide.e5703cf977a8e1e2f757.mp3",
     "static/media/415862__arianestolfi__44.mp3": "/my-app/static/media/415862__arianestolfi__44.c0185c7dd1efb51d82ef.mp3",
     "static/media/157871__orginaljun__arcade-button-1-click-sound.mp3": "/my-app/static/media/157871__orginaljun__arcade-button-1-click-sound.d9c4462607134ce8bdf0.mp3",
     "index.html": "/my-app/index.html",
-    "main.e4888831.css.map": "/my-app/static/css/main.e4888831.css.map",
-    "main.9ee19e83.js.map": "/my-app/static/js/main.9ee19e83.js.map",
+    "main.704eefb5.css.map": "/my-app/static/css/main.704eefb5.css.map",
+    "main.302d1da3.js.map": "/my-app/static/js/main.302d1da3.js.map",
     "845.ee66a780.chunk.js.map": "/my-app/static/js/845.ee66a780.chunk.js.map",
     "787.28cb0dcd.chunk.js.map": "/my-app/static/js/787.28cb0dcd.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.e4888831.css",
-    "static/js/main.9ee19e83.js"
+    "static/css/main.704eefb5.css",
+    "static/js/main.302d1da3.js"
   ]
 }
