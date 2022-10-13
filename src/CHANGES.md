@@ -17,6 +17,11 @@
 ---
 ## 10/13/22
 
+### Single set Bug fix and UI enhancment.
+  - SetTracker.js
+    - added startSetDelay and milliseconds on call to startCountdown from startSingleSet button handler
+    - modified jsx to not show start single set if it is running
+
 ### Refactored settings dialog.  Added delay seconds to settings dialog.
   - App.js
     - changes to support SettingsDialog component - passing props
@@ -31,7 +36,7 @@
   - useSetCountdown.js
     - startSetDelay is now a state variable provided to startCountdown
   - SetTracker.js
-    - startSetDealy is now passed as a prop from App and passed to startCountdown
+    - startSetDelay is now passed as a prop from App and passed to startCountdown
 
 ---
 ## 10/4/22
