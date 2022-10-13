@@ -7,7 +7,7 @@ import decide from './sounds/144319__fumiya112__decide.mp3';
 import arcadeButtonClickSound from './sounds/157871__orginaljun__arcade-button-1-click-sound.mp3';
 import './SetTracker.css';
 
-function SetTracker({setsCount = 10, secondsInASet = 20, mute = false} = {}) {
+function SetTracker({setsCount = 10, secondsInASet = 20, startSetDelay = 2.5, mute = false} = {}) {
 
     const [currentDelayTick, currentTick, setsRemaining, startingSetsCount, startSetCountdown, cancelSetCountdown] = useSetCountdown();
 
@@ -51,7 +51,7 @@ function SetTracker({setsCount = 10, secondsInASet = 20, mute = false} = {}) {
     );
 
     function startSet(event) {
-        startSetCountdown(setsCount, secondsInASet, 1000);
+        startSetCountdown(setsCount, secondsInASet, startSetDelay, 1000);
     }
 
     function stopSet() {

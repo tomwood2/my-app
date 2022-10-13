@@ -1,0 +1,19 @@
+.settings-dialog-container {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: auto auto auto auto auto;
+    gap: .5rem;
+    font-size: 1.5rem;
+}
+
+.settings-dialog-container label {
+    text-align: left;
+}
+
+.settings-dialog-container select {
+    font-size: inherit;
+}
+
+.settings-dialog-checkbox-holder {
+    display: flex;
+}

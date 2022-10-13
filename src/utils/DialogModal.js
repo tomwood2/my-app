@@ -1,28 +1,5 @@
 import { useEffect, useRef } from "react";
-import styled from "styled-components";
-
-const Dialog = styled.dialog`
-  width: 400px;
-  border-radius: 8px;
-  border: 1px solid #888;
-
-  ::backdrop {
-    background: rgba(0, 0, 0, 0.5);
-  }
-`;
-
-const Buttons = styled.div`
-  display: flex;
-  gap: 20px;
-`;
-
-// type Props = {
-//   title: string;
-//   isOpened: boolean;
-//   onProceed: () => void;
-//   onClose: () => void;
-//   children: React.ReactNode;
-// };
+import './DialogModal.css';
 
 // use object destructuring assignment to put prop members into variables
 function DialogModal({title, isOpened, onProceed, onClose, children}) {
@@ -48,21 +25,19 @@ function DialogModal({title, isOpened, onProceed, onClose, children}) {
     const preventAutoClose = (e) => e.stopPropagation();
 
     return (
-        <Dialog ref={dialog} onCancel={onClose} onClick={onClose}>
-            <div onClick={preventAutoClose}>
-                <h3>{title}</h3>
-
+        <dialog className="dialog-modal-dialog" ref={dialog} onCancel={onClose} onClick={onClose}>
+            <div className="dialog-modal-container" onClick={preventAutoClose}>
+                <header>{title}</header>
                 {children}
-
-                <Buttons>
+                <div className="dialog-modal-button-container">
                     {/* Only show OK button if onProceed was provided */}
                     {onProceed != null &&
-                        <button onClick={proceedAndClose}>Proceed</button>
+                        <button  className="dialog-modal-form-control dialog-modal-button" onClick={proceedAndClose}>Proceed</button>
                     }
-                    <button onClick={onClose}>Close</button>
-                </Buttons>
+                    <button className="dialog-modal-form-control dialog-modal-button" onClick={onClose}>Close</button>
+                </div>
             </div>
-        </Dialog>
+        </dialog>
     );
 }
 

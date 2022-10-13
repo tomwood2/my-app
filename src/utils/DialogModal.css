@@ -1,0 +1,57 @@
+.dialog-modal-dialog {
+    background-color: white;
+    border-radius: 8px;
+    border: 1px solid #888;
+}
+
+.dialog-modal-dialog::backdrop {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.dialog-modal-container {
+    display: grid;
+    grid-template-rows: auto auto auto;
+    gap: 1rem;
+}
+
+.dialog-modal-container header {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.dialog-modal-button-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+/* use this on input or button elements so heights line up vertically*/
+.dialog-modal-form-control {
+    /* reset user agent stylesheet */
+    background-color: transparent;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    color: inherit;
+    appearance: none;
+
+    /* to ensure centered text, make sure properties affecting height have same value */
+    font-size: 1em;
+    line-height: 1.2;
+    padding: 0.5rem 1.2rem;
+    border-width: 2px;
+    border-style: solid;
+  }
+  
+  .dialog-modal-button {
+    display: inline-flex;
+    justify-content: center; /* center the content horizontally */
+    align-items: center; /* center the content vertically */
+    background-color: hsl(220, 80%, 56%);
+    color: white;
+    border-color: transparent; /* hide button border - border there incase aligning with input elements*/
+    border-radius: 0.25rem;
+    font-family: inherit;
+    font-size: 1.5rem;
+  }

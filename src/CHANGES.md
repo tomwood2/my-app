@@ -8,11 +8,30 @@
 - [X] Add sounds to CountTracker
 - [ ] Refactor settings
 - [X] put hamburger, component heading and component in a grid in App or a new controller component
-- [ ] remove un-used source files
+- [X] remove un-used source files
 - [ ] fix lint errors
 
 ---
 # Changes:
+
+---
+## 10/13/22
+
+### Refactored settings dialog.  Added delay seconds to settings dialog.
+  - App.js
+    - changes to support SettingsDialog component - passing props
+  - SettingsDialog.js, .css
+    - SettingsDialog is now a component
+    - new files to contain code from App.js
+    - improved styling
+  - DialogModal.js, .css
+    - removed styled-components library
+    - new css file to replace styled-components
+    - improved styling
+  - useSetCountdown.js
+    - startSetDelay is now a state variable provided to startCountdown
+  - SetTracker.js
+    - startSetDealy is now passed as a prop from App and passed to startCountdown
 
 ---
 ## 10/4/22

@@ -25,8 +25,6 @@ import useTimeCountdown from './useTimeCountdown';
 
 function useSetCountdown() {
 
-    const startSetDelay = 2;      // seconds
-
     // state
     const [currentDelayTick, startDelayCountdown, cancelDelayCountdown] = useTimeCountdown();
     const [currentTick, startTimeCountdown, cancelTimeCountdown] = useTimeCountdown();
@@ -36,6 +34,7 @@ function useSetCountdown() {
     const ticksPerSetRef = useRef(0);
     const millisecondsPerTickRef = useRef(0);
     const startingSetsCount = useRef(-1);
+    const startSetDelayRef = useRef(2);        // in seconds
 
     useEffect(() => {
         if (currentDelayTick === 0) {
@@ -51,16 +50,17 @@ function useSetCountdown() {
 
     useEffect(() => {
         if (setsRemaining > 0) {
-            startDelayCountdown(startSetDelay * 4, 250);                                              
+            startDelayCountdown(startSetDelayRef.current * 4, 250);                                              
         }
     }, [setsRemaining]);
 
-    const startCountdown = (setCount, ticksPerSet, millisecondsPerTick) => {
+    const startCountdown = (setCount, ticksPerSet, startSetDelay, millisecondsPerTick) => {
         startingSetsCount.current = setCount;
         ticksPerSetRef.current  = ticksPerSet;
         millisecondsPerTickRef.current = millisecondsPerTick;
+        startSetDelayRef.current = startSetDelay;
         setSetsRemaining(setCount);
-        startDelayCountdown(startSetDelay * 4, 250);
+        startDelayCountdown(startSetDelayRef.current * 4, 250);
     };
 
     const cancelCountdown = () => {
