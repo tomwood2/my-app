@@ -60,7 +60,7 @@ function SetTracker({setsCount = 10, secondsInASet = 20, startSetDelay = 2.5, mu
      }
 
      function startSingleSet() {
-        startSetCountdown(1, secondsInASet);
+        startSetCountdown(1, secondsInASet, startSetDelay, 1000);
     }
 
     return  (
@@ -71,7 +71,9 @@ function SetTracker({setsCount = 10, secondsInASet = 20, startSetDelay = 2.5, mu
                 <header className="set-counter-seconds" data-testid="seconds" >{currentTick <= 0 ? '' : currentTick.toString()}</header>
                 <header className="set-counter-count" data-testid="count" id="count">{setsRemaining < 0 ? '' : setsRemaining}</header>
                 <button type="button" onClick={setsRemaining <= 0 ? startSet : stopSet} className="set-counter-start">{setsRemaining <= 0 ? 'Start' : 'Stop'}</button>
-                <button type="button" onClick={setsRemaining <= 0 ? startSingleSet : () => {}} className="set-counter-start-single-set" data-testid="startStop">{setsRemaining <= 0 ? 'Start Single Set' : ''}</button>
+                { setsRemaining <= 0 &&
+                    <button type="button" onClick={setsRemaining <= 0 ? startSingleSet : () => {}} className="set-counter-start-single-set" data-testid="startStop">{setsRemaining <= 0 ? 'Start Single Set' : ''}</button>
+                }
             </div>
         </div>
         );
